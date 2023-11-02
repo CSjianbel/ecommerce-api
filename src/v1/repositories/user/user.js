@@ -1,22 +1,4 @@
-const { User } = require('../models');
-
-const getAll = async () => {
-    try {
-        const users = await User.findAll();
-        return users;
-    } catch (error) {
-        throw error;
-    }
-};
-
-const getBy = async (id) => {
-    try {
-        const user = await User.findByPk(id);
-        return user;
-    } catch (error) {
-        throw error;
-    }
-}
+const { User } = require('../../models');
 
 const create = async (newUser) => {
     try {
@@ -26,6 +8,24 @@ const create = async (newUser) => {
         throw error;
     }
 }
+
+const get = async ({ filter }) => {
+    try {
+        const user = await User.findOne({ where: filter });
+        return user;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const list = async ({ filter, limit = 0}) => {
+    try {
+        const users = await User.findAll({ where: filter, limit });
+        return users;
+    } catch (error) {
+        throw error;
+    }
+};
 
 const update = async (id, newUser) => {
     try {
@@ -37,7 +37,7 @@ const update = async (id, newUser) => {
     }
 }
 
-const remove = async (id) => {
+const drop = async (id) => {
     try {
         const user = await User.findByPk(id);
         await user.destroy();
@@ -48,9 +48,9 @@ const remove = async (id) => {
 }
 
 module.exports = {
-    getAll,
-    getBy,
     create,
+    get,
+    list,
     update,
-    remove
+    drop
 };
